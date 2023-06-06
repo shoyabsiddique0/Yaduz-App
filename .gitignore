@@ -30,7 +30,18 @@ migrate_working_dir/
 .packages
 .pub-cache/
 .pub/
-/build/
+/build/410c38324641ccfa9d3cb77a6a131f6d/
+/build/kotlin/
+/build/app/generated
+/build/app/intermediates
+/build/app/kotlin
+/build/app/kotlinToolingMetadata
+/build/app/snapshot
+/build/app/tmp
+/build/app/outputs
+/build/app/outputs/apk
+/build/app/outputs/logs
+/build/app/outputs/mapping/sdk-dependencies
 
 # Symbolication related
 app.*.symbols
@@ -41,4 +52,3 @@ app.*.map.json
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
-/android/app/release
