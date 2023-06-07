@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,7 +11,7 @@ import 'package:yaduzfashion/HomePage/Widgets/Coupon.dart';
 import 'package:yaduzfashion/HomePage/Widgets/OfferCard.dart';
 import 'package:yaduzfashion/HomePage/Widgets/Pop_Cat_Card.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatelessWidget{
   Home({super.key});
   var _current = 0.obs;
   List images = [
@@ -30,6 +31,22 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(onPressed: (){
+            Get.defaultDialog(
+              title: "Warning",
+              middleText: "Are you sure you want to sign out",
+             textConfirm: "Yes",
+              textCancel: "No",
+              onConfirm: (){
+                final auth = FirebaseAuth.instance;
+                auth.signOut();
+                Get.back();
+              }
+            );
+
+          }, icon: Icon(Icons.logout, color: Colors.black,))
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const [
@@ -174,7 +191,9 @@ class Home extends StatelessWidget {
                   onPageChanged: (index, reason) {
                     _current.value = index;
                   },
-                )),
+                ),
+              carouselController: _controller,
+            ),
             Obx(
               () => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -186,16 +205,16 @@ class Home extends StatelessWidget {
                       height: 12.0,
                       margin: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
+                      decoration: ShapeDecoration(
                           shape: _current.value == entry.key
-                              ? BoxShape.rectangle
-                              : BoxShape.circle,
+                              ? TriangleShapeBorder(sideLength: 12)
+                              : CircleBorder(side: BorderSide.none,eccentricity: 0),
                           color:
-                              (Theme.of(context).brightness == Brightness.dark
-                                      ? const Color(0xffD6B5BB)
-                                      : const Color(0xffE41238))
-                                  .withOpacity(
-                                      _current.value == entry.key ? 0.9 : 0.4)),
+                          (Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xffD6B5BB)
+                              : const Color(0xffE41238))
+                              .withOpacity(
+                              _current.value == entry.key ? 0.9 : 0.4)),
                     ),
                   );
                 }).toList(),
@@ -847,4 +866,34 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
+
+class TriangleShapeBorder extends ShapeBorder {
+  final double sideLength;
+
+  TriangleShapeBorder({required this.sideLength});
+
+  @override
+  EdgeInsetsGeometry get dimensions => EdgeInsets.all(0);
+
+  @override
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
+    return getOuterPath(rect, textDirection: textDirection);
+  }
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    final path = Path();
+    path.moveTo(rect.left + sideLength / 2, rect.top);
+    path.lineTo(rect.left, rect.bottom);
+    path.lineTo(rect.right, rect.bottom);
+    path.close();
+    return path;
+  }
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
+
+  @override
+  ShapeBorder scale(double t) => TriangleShapeBorder(sideLength: sideLength * t);
 }

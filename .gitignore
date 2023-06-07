@@ -32,16 +32,16 @@ migrate_working_dir/
 .pub/
 /build/410c38324641ccfa9d3cb77a6a131f6d/
 /build/kotlin/
-/build/app/generated
-/build/app/intermediates
-/build/app/kotlin
-/build/app/kotlinToolingMetadata
-/build/app/snapshot
-/build/app/tmp
-/build/app/outputs
-/build/app/outputs/apk
-/build/app/outputs/logs
-/build/app/outputs/mapping/sdk-dependencies
+/build/app/generated/
+/build/app/intermediates/
+/build/app/kotlin/
+/build/app/kotlinToolingMetadata/
+/build/app/snapshot/
+/build/app/tmp/
+/build/app/outputs/apk/
+/build/app/outputs/logs/
+/build/app/outputs/mapping/
+/build/app/outputs/sdk-dependencies/
 
 # Symbolication related
 app.*.symbols
